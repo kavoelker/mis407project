@@ -20,14 +20,14 @@ def loadCraigslistData():
      contents = urllib2.urlopen(request).read()
      
      
-     with open("clist2.csv", "w") as newfile:
-          with open("clist1.csv") as oldfile:
-               oldfile = oldfile.readlines()
-               newfile.write(oldfile[0])
-               for line in oldfile[1:]:
-                    line = line.split(",")
-                    line[0] = line[0].upper()
-                    newfile.write(",".join(line))
+#     with open("clist2.csv", "w") as newfile:
+#          with open("clist1.csv") as oldfile:
+#               oldfile = oldfile.readlines()
+#               newfile.write(oldfile[0])
+#               for line in oldfile[1:]:
+#                    line = line.split(",")
+#                    line[0] = line[0].upper()
+#                    newfile.write(",".join(line))
 
      url = "clist2.csv"
      results = pd.read_csv(url)
@@ -91,7 +91,6 @@ def avgData(search):
 #            print value[x]
 #            x += 1
     
-searchData()
 loadCraigslistData()
 
 
