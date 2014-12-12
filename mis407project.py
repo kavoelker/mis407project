@@ -49,6 +49,7 @@ def chooseAction():
           sortData()
      else:
           print("Enter either search or sort")
+          chooseAction()
           
 
 def secondaryMenu(search):
