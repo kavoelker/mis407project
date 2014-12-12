@@ -9,7 +9,9 @@ url = "clist2.csv"
 results = pd.read_csv(url)
 #removes rows with missing values
 results = results.dropna(how='any')
+#removes '$' on price data
 results['price'] = results['price'].map(lambda x: str(x)[1:])
+#changes prices to integers
 results['price'] = results['price'].astype(int)
 
 
@@ -17,7 +19,6 @@ def loadCraigslistData():
      #load csv data from api created in kimonolabs that grabs craigslist data
      print("Collecting Craigslist Data For Electronics in Ames, Iowa")
      request = urllib2.Request("https://www.kimonolabs.com/api/csv/b0c7flky?apikey=qvdiZcoVwcx9TlWbDGcqdWMtSamsK7AB", headers={"authorization" : "Bearer mi6aboJU5bcLWzPDuGevrseP5mkMQ9Wt"})
-     contents = urllib2.urlopen(request).read()
      
      
 #     with open("clist2.csv", "w") as newfile:
@@ -47,6 +48,44 @@ def chooseAction():
           sortData()
      else:
           print("Enter either search or sort")
+          
+
+def secondaryMenu(search):
+    search = search
+    print("Select a corresponding number that matches the action you would like to take.")
+    print("1: Find the average price")
+    print("2: Find the range of prices in your search")
+    print("3: Plot out the data in your search")
+    print("4: See how many "+search+"'S there are compared to all electronics")
+    print("")
+    print("Press S to perform another search")
+    print("Press Q to quit")
+    menuSelection = raw_input()
+    if menuSelection == "1":
+        avgData(search)
+    elif menuSelection == "2":
+        priceRangeData(search)
+    elif menuSelection == "3":
+        pricingHist(search)
+    elif menuSelection == "4":
+        ratio(search)
+    elif menuSelection == "q":
+        print("Thank You")
+    elif menuSelection == "s":
+        searchData()
+    else:
+        print("Please choose an action that is on the menu.")
+        secondaryMenu(search)
+        
+        
+def advance(search):
+    print("Would you like to do more with your search? (y/n)")
+    advance = raw_input()
+    if advance == "y":
+        secondaryMenu(search)
+    else:
+        print("Thank you")
+        
 
 def sortData():
      #will sort craigslist data by price increasing/decreasing depending on user choice
@@ -62,35 +101,45 @@ def searchData():
          
      searchData = results[results['description'].str.contains(search)]
      print(searchData)
-     print("would you like more information about results matching "+search+"?")
+     print("would you like more information about results matching "+search+"? (y/n)")
      moreInfo = raw_input()
-     if moreInfo == "yes":
-         avgData(search)
+     if moreInfo == "y":
+         secondaryMenu(search)
      else:
-         print("")
+         print("Thank you")
      
 
-     
+def pricingHist(search):
+    dataSet = results[results['description'].str.contains(search)]
+    
+    dataSet['price'].diff().hist()
+    advance(search)
+    
+    #dataSet['price'].plot(kind='hist')
+
+
+def priceRangeData(search):
+    dataSet = results[results['description'].str.contains(search)]
+    
+    maximum = dataSet.price.max()
+    minimum = dataSet.price.min()
+    print("Pricing varies from $"+str(minimum)+" to $"+str(maximum))
+    advance(search)
+   
+         
 def avgData(search):
     
     #finds the average price of a set of items
     dataSet = results[results['description'].str.contains(search)]
     
-    #removes '$' on price data
-    value = dataSet['price']
+    avg = dataSet.price.mean()
     
-    print dataSet.price.mean() 
-    print value
-    print len(value)
-#    x = 0
-#    while (len(value)-1) >= x:
-#        tempValue = value[x]
-#        if tempValue is None:
-#            x += 1
-#        else:
-#            print value[x]
-#            x += 1
+    print("The average cost of a "+search+" is "+str(avg))
+    advance(search)
     
-loadCraigslistData()
+    
+
+priceRangeData("TV")   
+#loadCraigslistData()
 
 
