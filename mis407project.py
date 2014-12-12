@@ -140,6 +140,18 @@ def avgData(search):
     print("The average cost of a "+search+" is "+str(avg))
     advance(search)
     
+def ratio(search):
+    #calculates percentage of search results compared to total items
+    dataSet = results[results['description'].str.contains(search)]
+    
+    numSearchResults = len(dataSet)
+    totalItems = float(len(results))
+    searchRatio = numSearchResults/totalItems
+    searchRatio = searchRatio*100
+    print ("Your search for "+search+" makes up %.2f percent of total items." % searchRatio)
+    
+    advance(search)
+    
     
   
 loadCraigslistData()
