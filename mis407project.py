@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.pyplot import show, plot
 import json
 import urllib2
 import csv
@@ -114,8 +115,9 @@ def searchData():
 def pricingHist(search):
     #creates histogram that takes various items and lays them out by price.
     dataSet = results[results['description'].str.contains(search)]
-    
     dataSet['price'].diff().hist()
+    dataSet.plot()
+    show()
     advance(search)
     
     #dataSet['price'].plot(kind='hist')
@@ -137,7 +139,7 @@ def avgData(search):
     
     avg = dataSet.price.mean()
     
-    print("The average cost of a "+search+" is "+str(avg))
+    print("The average cost of a "+search+" is $%.2f" % avg)
     advance(search)
     
 def ratio(search):
