@@ -51,6 +51,7 @@ def chooseAction():
           
 
 def secondaryMenu(search):
+    #menu that user is brought to after search
     search = search
     print("Select a corresponding number that matches the action you would like to take.")
     print("1: Find the average price")
@@ -79,6 +80,7 @@ def secondaryMenu(search):
         
         
 def advance(search):
+    #helper function that asks if the user would like to do more with the search
     print("Would you like to do more with your search? (y/n)")
     advance = raw_input()
     if advance == "y":
@@ -110,6 +112,7 @@ def searchData():
      
 
 def pricingHist(search):
+    #creates histogram that takes various items and lays them out by price.
     dataSet = results[results['description'].str.contains(search)]
     
     dataSet['price'].diff().hist()
@@ -119,6 +122,7 @@ def pricingHist(search):
 
 
 def priceRangeData(search):
+    #looks at max and min data to see the price range for a search
     dataSet = results[results['description'].str.contains(search)]
     
     maximum = dataSet.price.max()
@@ -127,8 +131,7 @@ def priceRangeData(search):
     advance(search)
    
          
-def avgData(search):
-    
+def avgData(search): 
     #finds the average price of a set of items
     dataSet = results[results['description'].str.contains(search)]
     
@@ -138,8 +141,7 @@ def avgData(search):
     advance(search)
     
     
-
-priceRangeData("TV")   
-#loadCraigslistData()
+  
+loadCraigslistData()
 
 
